@@ -1,0 +1,7 @@
+{
+  "name": "accounta-buddy-app-vue",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

@@ -2,26 +2,19 @@
   <div class="swiper-wrapper">
     <swiper
         :direction="'vertical'"
-        :centeredSlides="true"
         :slidesPerView="1"
-        :spaceBetween="100"
-        :nested="true"
-        :centerInsufficientSlides="true"
         :pagination="true"
         :modules="modules"
         class="vertical-swiper"
+            :initialSlide=-1
     >
-      <swiper-slide v-for="(week) in fullData" :key="week.startDate">
+      <swiper-slide v-for="(week, wi) in fullData" :key="week.startDate">
         <swiper
             :effect="'cube'"
             :grabCursor="true"
             :direction="'horizontal'"
             :centeredSlides="true"
-            :slidesPerView="1"
-            :initialSlide=1
-            :spaceBetween="100"
-            :centerInsufficientSlides="true"
-            :nested="true"
+            :initialSlide=0
             :cubeEffect="{
       shadow: false,
       slideShadows: false
@@ -30,23 +23,15 @@
             :modules="modules"
             class="horizontal-swiper"
         >
-          <swiper-slide v-for="(personData) in week.weeklyData" :key="week + '_' + personData.userId">
-            <ion-card class="container-card">
-              <ion-card-header>
-                <ion-card-subtitle>{{ week.startDate }}</ion-card-subtitle>
-                <ion-card-title>{{ personData.name === 'buddy_0' ? 'Sten' : 'Reimo' }}</ion-card-title>
-                <!--TODO get real name -->
-              </ion-card-header>
-              <ion-card-content>
-                <ion-item v-for="(task) in personData.tasks"
-                          :key="week + '_' + personData.userId + '_' + task.taskId">
-                  <ion-label>{{ task.description }}</ion-label>
-                  <ion-checkbox :checked="task.isDone"
-                                slot="end">
-                  </ion-checkbox>
-                </ion-item>
-              </ion-card-content>
-            </ion-card>
+          <swiper-slide v-for="(personData, pi) in week.weeklyData" :key="wi + '_' + personData.userId">
+            <UserWeekCard
+                :personData="personData"
+                :week="week"
+                :weekIndex="wi"
+                :prevWeekGoals="getDoneWeeklyGoalsByWeekAndPersonIndex(fullData, wi-1, pi)"
+                :nextWeekGoals="getNextWeekWrittenGoalsByWeekAndPersonIndex(fullData,wi+1, pi)"
+                :goalsDoneSoFar="getGoalsDoneSoFar(fullData,wi, pi)"
+            ></UserWeekCard>
           </swiper-slide>
         </swiper>
       </swiper-slide>
@@ -57,16 +42,9 @@
 <script>
 import {defineComponent} from 'vue';
 import {Swiper, SwiperSlide} from "swiper/vue";
+import UserWeekCard from "@/components/UserWeekCard";
 import {
-  IonicSlides,
-  IonCard,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCardContent,
-  IonItem,
-  IonLabel,
-  IonCheckbox
+  IonicSlides
 } from '@ionic/vue';
 import {EffectCube, Pagination} from 'swiper';
 
@@ -80,14 +58,7 @@ export default defineComponent({
   components: {
     Swiper,
     SwiperSlide,
-    IonCard,
-    IonCardHeader,
-    IonCardSubtitle,
-    IonCardTitle,
-    IonCardContent,
-    IonItem,
-    IonLabel,
-    IonCheckbox
+    UserWeekCard,
   },
   data() {
     return {
@@ -101,6 +72,32 @@ export default defineComponent({
     }
   },
   methods: {
+    getDoneWeeklyGoalsByWeekAndPersonIndex(fullData, weekindex, personindex) {
+      if (weekindex < 0) return null
+      try {
+        return fullData[weekindex].weeklyData[personindex].tasks.filter(task => task.isDone).length;
+      } catch (e) {
+        console.error(e.message) // TODO fix when all weeks are shown
+      }
+    },
+    getNextWeekWrittenGoalsByWeekAndPersonIndex(fullData, weekindex, personindex) {
+      if (weekindex < 0) return null
+      try {
+        return fullData[weekindex].weeklyData[personindex].tasks.filter(task => task.description.trim().length > 0).length
+      } catch (e) {
+        console.error(e.message) // TODO fix when all weeks are shown
+        return 0;
+      }
+    },
+    getGoalsDoneSoFar(fullData, weekindex, personindex) {
+      if (weekindex < 0) return null
+      if (weekindex > 51) return null
+      let tasksDone = 0;
+      for (let i = 0; i < weekindex; i++) {
+        tasksDone += this.getDoneWeeklyGoalsByWeekAndPersonIndex(fullData, i, personindex)
+      }
+      return tasksDone;
+    },
     async fetchData() {
       this.fullData = await this.axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${this.sheetId}/values/${this.sheet}!${this.range}?key=${this.apiKey}`)
           .then(result => result.data['values'])
@@ -135,40 +132,27 @@ export default defineComponent({
                 })
               }
             }
-            console.log(fullData);
             return fullData;
           })
           .catch(err => console.error(err))
-    }
+    },
   },
   created() {
     this.fetchData();
   }
-});
+})
+;
+
 </script>
 <style>
 
-.swiper {
-  height: 400px;
-  width: 400px;
-}
-
-.container-card {
+.swiper-wrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  background-color: #424242;
-  height: 100%;
-  width: 100%;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100vw;
+  max-width: 600px;
 }
 
-.horizontal-swiper {
-  z-index: -10;
-}
 
-.vertical-swiper {
-  background-color: transparent;
-  z-index: 2;
-}
 </style>

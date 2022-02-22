@@ -28,6 +28,7 @@ import './theme/variables.css';
 const app = createApp(App)
     .use(IonicVue)
     .use(router)
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     .use(VueAxios, axios);
 
 router.isReady().then(() => {

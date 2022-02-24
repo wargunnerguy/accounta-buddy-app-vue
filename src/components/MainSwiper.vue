@@ -6,7 +6,7 @@
         :pagination="true"
         :modules="modules"
         class="vertical-swiper"
-            :initialSlide=-1
+        :initialSlide=-1
     >
       <swiper-slide v-for="(week, wi) in fullData" :key="week.startDate">
         <swiper
@@ -92,11 +92,7 @@ export default defineComponent({
     getGoalsDoneSoFar(fullData, weekindex, personindex) {
       if (weekindex < 0) return null
       if (weekindex > 51) return null
-      let tasksDone = 0;
-      for (let i = 0; i < weekindex; i++) {
-        tasksDone += this.getDoneWeeklyGoalsByWeekAndPersonIndex(fullData, i, personindex)
-      }
-      return tasksDone;
+      return fullData[weekindex].weeklyData[personindex].nrOfTasksDoneThisYear;
     },
     async fetchData() {
       this.fullData = await this.axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${this.sheetId}/values/${this.sheet}!${this.range}?key=${this.apiKey}`)
@@ -104,6 +100,7 @@ export default defineComponent({
           .then(result => {
             const nrOfWeeklyTasks = 5; //just so i can have 5 tasks
             const fullData = [];
+            let nrOfTasksDoneThisYear = [];
             for (let i in result) {
               if (result[i].length === 1) {
                 const nrOfBuddies = (result[+i + 1].length - 1) / 2; // andmerea array pikkus miinus 1(index) ja jagada 2 (sest iga inimese kohta kaks sisendit (desc ja bool))
@@ -113,16 +110,20 @@ export default defineComponent({
                   const tasks = [];
                   const buddyName = 'buddy_' + buddyIndex;
                   for (let nr = 0; nr < nrOfWeeklyTasks; nr++) {
+                    const taskIsDone = result[(+i + 1 + nr)][(+buddyIndex * 2 + 2)].toUpperCase() === 'TRUE'
                     tasks.push({
                       taskId: buddyIndex + '_' + i + 1 + '_' + +nr,
                       description: result[(+i + 1 + nr)][(+buddyIndex * 2 + 1)],
-                      isDone: result[(+i + 1 + nr)][(+buddyIndex * 2 + 2)].toUpperCase() === 'TRUE',
+                      isDone: taskIsDone,
                     })
+                    if (!nrOfTasksDoneThisYear[buddyIndex]) nrOfTasksDoneThisYear[buddyIndex] = 0;
+                    if (taskIsDone && typeof nrOfTasksDoneThisYear[buddyIndex] === 'number') nrOfTasksDoneThisYear[buddyIndex]++;
                   }
                   const personWeeklyData = {
                     userId: buddyName, //TODO päris id sebida
                     name: buddyName,
                     tasks: tasks,
+                    nrOfTasksDoneThisYear: nrOfTasksDoneThisYear[buddyIndex],
                   }
                   peopleWeeklyData.push(personWeeklyData);
                 }

@@ -6,8 +6,8 @@
           <div v-if="prevWeekGoals">Eelmine nädal täidetud {{ prevWeekGoals }} eesmärki</div>
           <div v-else>Head uut aastat</div>
         </ion-col>
-        <ion-col center text-center>
-          <div>Siiani täidetud {{ goalsDoneSoFar }}/{{weekIndex*5}} eesmärki</div>
+        <ion-col v-if="prevWeekGoals" center text-center>
+          <div>Siiani täidetud {{ goalsDoneSoFar }}/{{(weekIndex+1)*5}} eesmärki</div>
         </ion-col>
       </ion-row>
     </ion-header>

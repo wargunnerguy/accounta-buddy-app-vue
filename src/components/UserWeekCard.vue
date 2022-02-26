@@ -3,16 +3,16 @@
     <ion-header>
       <ion-row>
         <ion-col center text-center>
-          <div v-if="prevWeekGoals">Eelmine nädal täidetud {{ prevWeekGoals }} eesmärki</div>
-          <div v-else>Head uut aastat</div>
+          <div v-if="prevWeekGoals">{{ $t('last_week_completed') }} {{ prevWeekGoals }} {{ $t('goals') }}</div>
+          <div v-else>{{ $t('happy_new_year') }}</div>
         </ion-col>
         <ion-col v-if="prevWeekGoals" center text-center>
-          <div>Siiani täidetud {{ goalsDoneSoFar }}/{{(weekIndex+1)*5}} eesmärki</div>
+          <div>{{ $t('so_far_done') }} {{ goalsDoneSoFar }}/{{(weekIndex+1)*5}} {{ $t('goals') }}</div>
         </ion-col>
       </ion-row>
     </ion-header>
     <ion-card-header>
-      <ion-card-subtitle>{{weekIndex + 1}}. nädal - {{ week.startDate }}</ion-card-subtitle>
+      <ion-card-subtitle>{{weekIndex + 1}}. {{ $t('week') }} - {{ week.startDate }}</ion-card-subtitle>
       <ion-card-title>{{ personData.name === 'buddy_0' ? 'Sten' : 'Reimo' }}</ion-card-title>
       <!--TODO get real name -->
     </ion-card-header>
@@ -70,12 +70,7 @@ export default {
     IonCol,
     IonRow,
     IonHeader
-  },
-  methods: {
-    goalsDone() {
-      // return this.prevPersonData.tasks.filter((res) => res.isDone);
-    },
-  },
+  }
 }
 </script>
 

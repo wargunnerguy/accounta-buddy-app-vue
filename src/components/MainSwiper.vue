@@ -141,8 +141,7 @@ export default defineComponent({
   created() {
     this.fetchData();
   }
-})
-;
+});
 
 </script>
 <style>

@@ -23,10 +23,15 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 /* Theme variables */
-import './theme/variables.css';
+import './theme/variables.scss';
+
+import i18n from './i18n'
+
 
 const app = createApp(App)
+    .use(i18n)
     .use(IonicVue)
+    .use(router)
     .use(router)
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     .use(VueAxios, axios);

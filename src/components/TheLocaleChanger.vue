@@ -1,15 +1,19 @@
 <template>
-  <button v-for="locale of $i18n.availableLocales" :key="locale"
+  <ion-button v-for="locale of $i18n.availableLocales" :key="locale"
           @click="changeLocale(locale)"
           type="button"
           class="btn btn-lg">
     <img :src="require(`@/assets/img/flags/${locale}.png`)" width="50"/>
-  </button>
+  </ion-button>
 </template>
 
 <script>
+import IonButton from '@ionic/vue'
 export default {
   name: 'TheLocaleChanger',
+  components: {
+    IonButton
+  },
   data() {
     return {
       langs: [

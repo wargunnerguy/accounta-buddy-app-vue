@@ -3,7 +3,7 @@
           @click="changeLocale(locale)"
           type="button"
           class="btn btn-lg">
-    <img :src="require(`@/assets/img/flags/${locale}.png`)" width="50"/>
+    <img :src="require(`@/assets/img/flags/${locale}.png`)" width="30"/>
   </ion-button>
 </template>
 

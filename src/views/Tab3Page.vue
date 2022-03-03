@@ -1,14 +1,5 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ $t('weekly_goals')}}</ion-title>
-        <ion-buttons slot="end">
-          <TheLocaleChanger></TheLocaleChanger>
-          <ThemeChangeButton></ThemeChangeButton>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
@@ -29,7 +20,7 @@ import TheLocaleChanger from '@/components/TheLocaleChanger.vue';
 
 export default defineComponent({
   name: 'Tab3Page',
-  components: {MainSwiper, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, ThemeChangeButton, TheLocaleChanger}
+  components: {MainSwiper, IonHeader, IonToolbar, IonTitle, IonContent, IonPage}
 });
 
 </script>

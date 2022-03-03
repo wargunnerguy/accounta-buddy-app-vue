@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "accounta-buddy-app-vue",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

@@ -3,7 +3,7 @@
     <swiper
         :direction="'vertical'"
         :slidesPerView="1"
-        :pagination="true"
+        :pagination="{dynamicBullets: true}"
         :modules="modules"
         class="vertical-swiper"
         :initialSlide=-1
@@ -43,15 +43,13 @@
 import {defineComponent} from 'vue';
 import {Swiper, SwiperSlide} from "swiper/vue";
 import UserWeekCard from "@/components/UserWeekCard";
-import {
-  IonicSlides
-} from '@ionic/vue';
+import {IonicSlides} from '@ionic/vue';
 import {EffectCube, Pagination} from 'swiper';
 
 import "swiper/css";
-
 import "swiper/css/effect-cube";
 import "swiper/css/pagination";
+
 import '@ionic/vue/css/ionic-swiper.css';
 
 export default defineComponent({
@@ -144,7 +142,7 @@ export default defineComponent({
 });
 
 </script>
-<style>
+<style lang="scss">
 
 .swiper-wrapper {
   display: flex;
@@ -154,5 +152,16 @@ export default defineComponent({
   max-width: 600px;
 }
 
+.swiper {
+  --bullet-background: var(--ion-color-main-theme, #ffcc45);
+  --bullet-background-active: var(--ion-color-main-theme, #ffcc45);
+}
 
+.swiper-pagination {
+  right: 10px;
+}
+
+.swiper-pagination-vertical.swiper-pagination-bullets, .swiper-vertical>.swiper-pagination-bullets {
+  right: 4px;
+}
 </style>

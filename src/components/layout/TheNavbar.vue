@@ -5,6 +5,7 @@
       <ion-buttons slot="end">
         <TheLocaleChanger></TheLocaleChanger>
         <ThemeChangeButton></ThemeChangeButton>
+        <TheSettingsButton></TheSettingsButton>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -12,12 +13,12 @@
 
 <script>
 import {IonHeader, IonTitle, IonToolbar} from "@ionic/vue";
-import ThemeChangeButton from "@/components/ThemeChangeButton";
-import TheLocaleChanger from "@/components/TheLocaleChanger";
-
+import ThemeChangeButton from "@/components/utils/ThemeChangeButton";
+import TheLocaleChanger from "@/components/utils/TheLocaleChanger";
+import TheSettingsButton from "@/components/utils/TheSettingsButton";
 export default {
   name: "TheNavbar",
-  components: {IonHeader, IonToolbar, IonTitle, ThemeChangeButton, TheLocaleChanger}
+  components: {IonHeader, IonToolbar, IonTitle, ThemeChangeButton, TheLocaleChanger, TheSettingsButton}
 }
 </script>
 

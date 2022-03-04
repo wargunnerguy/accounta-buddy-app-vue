@@ -43,5 +43,4 @@ export default {
   --ion-card-background: var(--ion-color-step-250);
 }
 
-
 </style>

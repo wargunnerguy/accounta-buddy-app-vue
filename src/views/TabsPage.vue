@@ -11,8 +11,8 @@
 <script>
 import {defineComponent} from 'vue';
 import {IonTabs, IonPage, IonRouterOutlet} from '@ionic/vue';
-import BottomButtons from "@/components/BottomButtons";
-import TheNavbar from "@/components/TheNavbar";
+import BottomButtons from "@/components/layout/BottomButtons";
+import TheNavbar from "@/components/layout/TheNavbar";
 
 export default defineComponent({
   name: 'TabsPage',

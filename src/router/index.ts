@@ -7,6 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     redirect: '/tabs/tab1'
   },
+
   {
     path: '/tabs/',
     component: TabsPage,
@@ -17,16 +18,20 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        component: () => import('@/views/MyThisWeekPage.vue')
       },
       {
         path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        component: () => import('@/views/GeneralBuddyListPage.vue')
       },
       {
         path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
-      }
+        component: () => import('@/views/DetailedUsersWeeksPage.vue')
+      },
+      {
+        path: 'settings',
+        component: () => import('@/views/SettingsPage.vue')
+      },
     ]
   }
 ]

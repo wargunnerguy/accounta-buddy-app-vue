@@ -42,7 +42,7 @@
 <script>
 import {defineComponent} from 'vue';
 import {Swiper, SwiperSlide} from "swiper/vue";
-import UserWeekCard from "@/components/UserWeekCard";
+import UserWeekCard from "@/components/userWeekCard/UserWeekCard";
 import {IonicSlides} from '@ionic/vue';
 import {EffectCube, Pagination} from 'swiper';
 

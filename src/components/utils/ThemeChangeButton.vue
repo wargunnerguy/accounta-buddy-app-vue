@@ -1,5 +1,5 @@
 <template>
-  <ion-icon slot="start" name="moon"></ion-icon>
+  <ion-icon slot="start" :icon="getIcon"></ion-icon>
   <ion-label>
     {{ $t('toggle_dark_theme') }}
   </ion-label>
@@ -12,6 +12,7 @@ import {
   IonLabel,
   IonToggle
 } from '@ionic/vue'
+import {moon, sunny} from "ionicons/icons";
 
 export default {
   name: "ThemeChangeButton",
@@ -22,16 +23,25 @@ export default {
   },
   data() {
     return {
-      isDarkMode: document.body.classList.contains('dark'),
+      isDarkMode: document.body.classList.contains('dark')
     }
+  },
+  setup() {
+    return {moon, sunny};
   },
   methods: {
     toggleDarkTheme() {
       document.body.classList.toggle('dark');
-    }
+      this.isDarkMode = !this.isDarkMode;
+    },
+  },
+  computed: {
+    getIcon() {
+      return this.isDarkMode ? this.moon : this.sunny;
+    },
   },
   mounted() {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     // Use matchMedia to check the user preference
     this.isDarkMode = document.body.classList.toggle('dark', prefersDark.matches);
 

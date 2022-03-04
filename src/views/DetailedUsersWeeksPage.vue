@@ -15,11 +15,9 @@
 import {defineComponent} from 'vue';
 import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
 import MainSwiper from '@/components/MainSwiper.vue';
-import ThemeChangeButton from '@/components/ThemeChangeButton.vue';
-import TheLocaleChanger from '@/components/TheLocaleChanger.vue';
 
 export default defineComponent({
-  name: 'Tab3Page',
+  name: 'DetailedUsersWeeksPage',
   components: {MainSwiper, IonHeader, IonToolbar, IonTitle, IonContent, IonPage}
 });
 

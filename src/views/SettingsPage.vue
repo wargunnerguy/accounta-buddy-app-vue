@@ -6,19 +6,29 @@
           <ion-title size="large">Tab 2</ion-title>
         </ion-toolbar>
       </ion-header>
-
-      <ExploreContainer name="Tab 2 page" />
+      <TheSettingsCard></TheSettingsCard>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from "@ionic/vue";
+import TheSettingsCard from "@/components/utils/TheSettingsCard.vue";
 
 export default defineComponent({
-  name: 'Tab2Page',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
-});
+  name: "SettingsPage",
+  components: {
+    IonPage,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    TheSettingsCard
+  },
+})
 </script>
+
+<style scoped>
+
+</style>

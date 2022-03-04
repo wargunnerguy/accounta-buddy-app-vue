@@ -1,8 +1,8 @@
 {
   "name": "accounta-buddy-app-vue",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "private": true,
-  "description": "An Ionic project",
+  "description": "App for keeping yourself and your friends accountable and achieving great things before the nail the coffin.",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

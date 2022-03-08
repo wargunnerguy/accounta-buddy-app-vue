@@ -27,9 +27,10 @@ import './theme/variables.scss';
 
 
 import i18n from './i18n'
+import { createPinia } from 'pinia'
 
 
-const app = createApp(App)
+const app = createApp(App).use(createPinia())
     .use(i18n)
     .use(IonicVue)
     .use(router)

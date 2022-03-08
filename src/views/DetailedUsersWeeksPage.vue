@@ -13,12 +13,12 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent} from '@ionic/vue';
+import {IonPage, IonHeader, IonToolbar, IonContent} from '@ionic/vue';
 import MainSwiper from '@/components/MainSwiper.vue';
 
 export default defineComponent({
   name: 'DetailedUsersWeeksPage',
-  components: {MainSwiper, IonHeader, IonToolbar, IonTitle, IonContent, IonPage}
+  components: {MainSwiper, IonHeader, IonToolbar, IonContent, IonPage}
 });
 
 </script>

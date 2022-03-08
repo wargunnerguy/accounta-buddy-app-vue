@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {IonCard,} from "@ionic/vue";
+import {IonCard} from "@ionic/vue";
 import UserWeekCardHeader from "@/components/userWeekCard/UserWeekCardHeader";
 import UserWeekCardBody from "@/components/userWeekCard/UserWeekCardBody";
 import UserWeekCardFooter from "@/components/userWeekCard/UserWeekCardFooter";
@@ -28,7 +28,7 @@ export default {
     UserWeekCardFooter,
     UserWeekCardHeader,
     UserWeekCardBody
-  }
+  },
 }
 </script>
 

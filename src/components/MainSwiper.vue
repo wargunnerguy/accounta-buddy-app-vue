@@ -58,6 +58,7 @@ export default defineComponent({
     SwiperSlide,
     UserWeekCard,
   },
+
   data() {
     return {
       sheetId: '18HHwYvBYnJJMlEsIPv98lH5gc5H7PTLBO7h5Y2mc3hs',
@@ -131,6 +132,7 @@ export default defineComponent({
                 })
               }
             }
+            console.log(fullData);
             return fullData;
           })
           .catch(err => console.error(err))
@@ -161,7 +163,7 @@ export default defineComponent({
   right: 10px;
 }
 
-.swiper-pagination-vertical.swiper-pagination-bullets, .swiper-vertical>.swiper-pagination-bullets {
+.swiper-pagination-vertical.swiper-pagination-bullets, .swiper-vertical > .swiper-pagination-bullets {
   right: 4px;
 }
 </style>

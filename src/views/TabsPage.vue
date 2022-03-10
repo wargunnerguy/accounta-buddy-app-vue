@@ -17,6 +17,5 @@ import TheNavbar from "@/components/layout/TheNavbar";
 export default defineComponent({
   name: 'TabsPage',
   components: {IonTabs, IonPage, IonRouterOutlet, BottomButtons, TheNavbar},
-
 });
 </script>

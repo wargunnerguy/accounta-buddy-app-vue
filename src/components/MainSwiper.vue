@@ -6,7 +6,7 @@
         :pagination="{dynamicBullets: true}"
         :modules="modules"
         class="vertical-swiper"
-        :initialSlide=-1
+        :initialSlide=store.todayWeek-1
     >
       <swiper-slide v-for="(week, wi) in store.fullData" :key="week.startDate">
         <swiper
@@ -48,12 +48,12 @@ import {IonicSlides} from '@ionic/vue';
 import {EffectCube, Pagination} from 'swiper';
 
 import {useStore} from "@/store";
-import {mapActions} from "pinia";
 
 import "swiper/css";
 import "swiper/css/effect-cube";
 import "swiper/css/pagination";
 import '@ionic/vue/css/ionic-swiper.css';
+
 
 export default defineComponent({
   components: {
@@ -68,14 +68,6 @@ export default defineComponent({
       modules: [EffectCube, Pagination, IonicSlides],
     }
   },
-  methods: {
-    ...mapActions(useStore, [
-      'fetchData',
-      'getGoalsDoneSoFar',
-      'getDoneWeeklyGoalsByWeekAndPersonIndex',
-      'getNextWeekWrittenGoalsByWeekAndPersonIndex'
-    ]),
-  }
 });
 
 </script>

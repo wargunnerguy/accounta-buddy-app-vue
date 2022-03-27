@@ -2,6 +2,7 @@ import {defineStore} from 'pinia'
 import axios from "axios";
 import {EffectCube, Pagination} from "swiper";
 import {IonicSlides} from "@ionic/vue";
+import {getISOWeek} from "date-fns";
 
 interface Task {
     taskId: string,
@@ -13,7 +14,8 @@ interface PersonWeeklyData {
     userId: string,
     name: string,
     tasks: Task[],
-    nrOfTasksDoneThisYear: number
+    nrOfTasksDoneThisYear: number,
+    perfectWeekStreak: number
 }
 
 interface WeekDataObj {
@@ -21,15 +23,18 @@ interface WeekDataObj {
     weeklyData: PersonWeeklyData[];
 }
 
-export const useStore = defineStore('main', {
+export const useStore = defineStore({
+    id: 'store',
     state: () => ({
         sheetId: '18HHwYvBYnJJMlEsIPv98lH5gc5H7PTLBO7h5Y2mc3hs',
         apiKey: 'AIzaSyCu3eywuilXrvgyLneIpxMOAFZkL9bxqmg',
         fullLink: 'https://docs.google.com/spreadsheets/d/18HHwYvBYnJJMlEsIPv98lH5gc5H7PTLBO7h5Y2mc3hs/edit?usp=sharing',
         sheet: '2022',
-        range: 'A17:E64',
+        range: 'A17:E94',
         fullData: [] as WeekDataObj[],
         modules: [EffectCube, Pagination, IonicSlides],
+        todayDate: new Date(),
+        todayWeek: getISOWeek(new Date())
     }),
     actions: {
         async fetchData() {
@@ -39,15 +44,18 @@ export const useStore = defineStore('main', {
                     const nrOfWeeklyTasks = 5;  //just so i can have 5 tasks
                     const fullData = [];
                     const nrOfTasksDoneThisYear: number[] = [];
+                    const perfectWeekStreak: number[] = [];
                     for (const i in result) {
                         if (result[i].length === 1) {
                             const nrOfBuddies: number = (result[+i + 1].length - 1) / 2; // andmerea array pikkus miinus 1(index) ja jagada 2 (sest iga inimese kohta kaks sisendit (desc ja bool))
                             const weekStartDate: string = result[i][0];
                             const peopleWeeklyData: PersonWeeklyData[] = [];
+                            const isPerfectWeek: Array<boolean> = new Array(nrOfBuddies)
+                                .fill(true);
                             for (let buddyIndex = 0; buddyIndex < nrOfBuddies; buddyIndex++) {
                                 const tasks: Task[] = [];
                                 const buddyName: string = 'buddy_' + buddyIndex;
-                                for (let nr = 0; nr < nrOfWeeklyTasks; nr++) {
+                                for (let nr = 0; nr < nrOfWeeklyTasks; nr++) { // tasks
                                     const taskIsDone: boolean = result[(+i + 1 + nr)][(+buddyIndex * 2 + 2)].toUpperCase() === 'TRUE'
                                     tasks.push({
                                         taskId: buddyIndex + '_' + i + 1 + '_' + +nr,
@@ -55,13 +63,16 @@ export const useStore = defineStore('main', {
                                         isDone: taskIsDone,
                                     } as Task)
                                     if (!nrOfTasksDoneThisYear[buddyIndex]) nrOfTasksDoneThisYear[buddyIndex] = 0;
+                                    if (!taskIsDone) isPerfectWeek[buddyIndex] = false;
                                     if (taskIsDone && typeof nrOfTasksDoneThisYear[buddyIndex] === 'number') nrOfTasksDoneThisYear[buddyIndex]++;
                                 }
+                                isPerfectWeek[buddyIndex] ? perfectWeekStreak[buddyIndex]++ : perfectWeekStreak[buddyIndex] = 0;
                                 const personWeeklyData = {
                                     userId: buddyName, //TODO päris id sebida
                                     name: buddyName,
                                     tasks: tasks,
                                     nrOfTasksDoneThisYear: nrOfTasksDoneThisYear[buddyIndex],
+                                    perfectWeekStreak: perfectWeekStreak[buddyIndex]
                                 }
                                 peopleWeeklyData.push(personWeeklyData);
                             }
@@ -77,13 +88,17 @@ export const useStore = defineStore('main', {
                     console.error(err)
                     return [];
                 })
+            this.setDateAttributes();
+        },
+        setDateAttributes() {
+            this.todayDate = new Date();
+            this.todayWeek = getISOWeek(this.todayDate);
         },
         getGoalsDoneSoFar(weekIndex: number, personIndex: number) {
             if (weekIndex < 0 || weekIndex > 51) return null;
-            console.log(this.fullData[weekIndex].weeklyData[personIndex].nrOfTasksDoneThisYear);
             return this.fullData[weekIndex].weeklyData[personIndex].nrOfTasksDoneThisYear;
         },
-        getNextWeekWrittenGoalsByWeekAndPersonIndex(weekIndex: number, personIndex:number) {
+        getNextWeekWrittenGoalsByWeekAndPersonIndex(weekIndex: number, personIndex: number) {
             if (weekIndex < 0) return null
             try {
                 return this.fullData[weekIndex].weeklyData[personIndex].tasks.filter(task => task.description.trim().length > 0).length
@@ -92,7 +107,7 @@ export const useStore = defineStore('main', {
                 return 0;
             }
         },
-        getDoneWeeklyGoalsByWeekAndPersonIndex(weekIndex: number, personIndex:number) {
+        getDoneWeeklyGoalsByWeekAndPersonIndex(weekIndex: number, personIndex: number) {
             if (weekIndex < 0) return null
             try {
                 return this.fullData[weekIndex].weeklyData[personIndex].tasks.filter(task => task.isDone).length;
@@ -100,5 +115,15 @@ export const useStore = defineStore('main', {
                 console.error(e.message) // TODO fix when all weeks are shown
             }
         },
+        getStreakForUser(personIndex: number) {
+            return this.fullData[this.$state.todayWeek - 2].weeklyData[personIndex].perfectWeekStreak;
+        },
+        getDoneStatusForPreviousWeeksForUser(personIndex: number, nrOfWeeks: number): boolean[] {
+            return [true, false]
+        },
+        getFullData() {
+            return this.fullData;
+        }
+
     },
 })

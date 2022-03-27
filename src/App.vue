@@ -22,7 +22,7 @@ export default defineComponent({
     }
   },
   created() {
-    this.store.fetchData();
+    this.store.fetchData().then(this.store.getFullData);
   }
 });
 </script>

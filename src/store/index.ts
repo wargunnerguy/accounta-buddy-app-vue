@@ -30,11 +30,12 @@ export const useStore = defineStore({
         apiKey: 'AIzaSyCu3eywuilXrvgyLneIpxMOAFZkL9bxqmg',
         fullLink: 'https://docs.google.com/spreadsheets/d/18HHwYvBYnJJMlEsIPv98lH5gc5H7PTLBO7h5Y2mc3hs/edit?usp=sharing',
         sheet: '2022',
-        range: 'A17:E94',
+        range: 'A17:E106',
         fullData: [] as WeekDataObj[],
         modules: [EffectCube, Pagination, IonicSlides],
         todayDate: new Date(),
-        todayWeek: getISOWeek(new Date())
+        todayWeek: getISOWeek(new Date()),
+        peopleWeeklyCompleteness: [] as number[][]
     }),
     actions: {
         async fetchData() {
@@ -45,8 +46,10 @@ export const useStore = defineStore({
                     const fullData = [];
                     const nrOfTasksDoneThisYear: number[] = [];
                     const perfectWeekStreak: number[] = [];
+                    let weekNr = 0;
                     for (const i in result) {
                         if (result[i].length === 1) {
+                            weekNr++;
                             const nrOfBuddies: number = (result[+i + 1].length - 1) / 2; // andmerea array pikkus miinus 1(index) ja jagada 2 (sest iga inimese kohta kaks sisendit (desc ja bool))
                             const weekStartDate: string = result[i][0];
                             const peopleWeeklyData: PersonWeeklyData[] = [];
@@ -55,6 +58,7 @@ export const useStore = defineStore({
                             for (let buddyIndex = 0; buddyIndex < nrOfBuddies; buddyIndex++) {
                                 const tasks: Task[] = [];
                                 const buddyName: string = 'buddy_' + buddyIndex;
+                                let tasksDoneThisWeek = 0;
                                 for (let nr = 0; nr < nrOfWeeklyTasks; nr++) { // tasks
                                     const taskIsDone: boolean = result[(+i + 1 + nr)][(+buddyIndex * 2 + 2)].toUpperCase() === 'TRUE'
                                     tasks.push({
@@ -65,6 +69,7 @@ export const useStore = defineStore({
                                     if (!nrOfTasksDoneThisYear[buddyIndex]) nrOfTasksDoneThisYear[buddyIndex] = 0;
                                     if (!taskIsDone) isPerfectWeek[buddyIndex] = false;
                                     if (taskIsDone && typeof nrOfTasksDoneThisYear[buddyIndex] === 'number') nrOfTasksDoneThisYear[buddyIndex]++;
+                                    if (taskIsDone) tasksDoneThisWeek++;
                                 }
                                 isPerfectWeek[buddyIndex] ? perfectWeekStreak[buddyIndex]++ : perfectWeekStreak[buddyIndex] = 0;
                                 const personWeeklyData = {
@@ -72,16 +77,21 @@ export const useStore = defineStore({
                                     name: buddyName,
                                     tasks: tasks,
                                     nrOfTasksDoneThisYear: nrOfTasksDoneThisYear[buddyIndex],
-                                    perfectWeekStreak: perfectWeekStreak[buddyIndex]
+                                    perfectWeekStreak: perfectWeekStreak[buddyIndex],
                                 }
+                                // this.peopleWeeklyCompleteness[buddyIndex][weekNr] = (tasksDoneThisWeek / nrOfWeeklyTass);
+                                if(!this.peopleWeeklyCompleteness[buddyIndex]) this.peopleWeeklyCompleteness[buddyIndex] = []
+                                this.peopleWeeklyCompleteness[buddyIndex].push(tasksDoneThisWeek / nrOfWeeklyTasks);
                                 peopleWeeklyData.push(personWeeklyData);
                             }
                             fullData.push({
                                 startDate: weekStartDate,
                                 weeklyData: peopleWeeklyData
                             })
+
                         }
                     }
+                    console.log(this.peopleWeeklyCompleteness)
                     return fullData as WeekDataObj[];
                 })
                 .catch(err => {

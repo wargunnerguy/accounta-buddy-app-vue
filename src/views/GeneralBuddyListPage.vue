@@ -7,8 +7,8 @@
         </ion-toolbar>
       </ion-header>
       <ion-card class="main-card-wrapper">
-        <BuddyListElement :buddy-name="'Sten'" :streak-in-days="store.getStreakForUser(0)"></BuddyListElement> <!-- TODO get last week and insert it to weeklyData -->
-        <BuddyListElement :buddy-name="'Reimo'" :streak-in-days="store.getStreakForUser(1)"></BuddyListElement> <!-- TODO get last week and insert it to weeklyData -->
+        <BuddyListElement :buddy-name="'Sten'" :streak-in-days="store.getStreakForUser(0)" :weekly-completeness="store.getCompletenessesForUser(0, 7)"></BuddyListElement> <!-- TODO get last week and insert it to weeklyData -->
+        <BuddyListElement :buddy-name="'Reimo'" :streak-in-days="store.getStreakForUser(1)" :weekly-completeness="store.getCompletenessesForUser(1, 7)"></BuddyListElement> <!-- TODO get last week and insert it to weeklyData -->
       </ion-card>
     </ion-content>
   </ion-page>

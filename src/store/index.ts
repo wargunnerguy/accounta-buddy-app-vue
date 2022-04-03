@@ -80,8 +80,8 @@ export const useStore = defineStore({
                                     perfectWeekStreak: perfectWeekStreak[buddyIndex],
                                 }
                                 // this.peopleWeeklyCompleteness[buddyIndex][weekNr] = (tasksDoneThisWeek / nrOfWeeklyTass);
-                                if(!this.peopleWeeklyCompleteness[buddyIndex]) this.peopleWeeklyCompleteness[buddyIndex] = []
-                                this.peopleWeeklyCompleteness[buddyIndex].push(tasksDoneThisWeek / nrOfWeeklyTasks);
+                                if (!this.peopleWeeklyCompleteness[buddyIndex] && (weekNr <= this.todayWeek)) this.peopleWeeklyCompleteness[buddyIndex] = []
+                                if (weekNr <= this.todayWeek) this.peopleWeeklyCompleteness[buddyIndex].push(tasksDoneThisWeek / nrOfWeeklyTasks);
                                 peopleWeeklyData.push(personWeeklyData);
                             }
                             fullData.push({
@@ -91,7 +91,6 @@ export const useStore = defineStore({
 
                         }
                     }
-                    console.log(this.peopleWeeklyCompleteness)
                     return fullData as WeekDataObj[];
                 })
                 .catch(err => {
@@ -127,6 +126,10 @@ export const useStore = defineStore({
         },
         getStreakForUser(personIndex: number) {
             return this.fullData[this.$state.todayWeek - 2].weeklyData[personIndex].perfectWeekStreak;
+        },
+        getCompletenessesForUser(personIndex: number, nrOfWeeks: number) {
+            return this.peopleWeeklyCompleteness[personIndex]
+                .slice((this.peopleWeeklyCompleteness[personIndex].length - nrOfWeeks), this.peopleWeeklyCompleteness[personIndex].length);
         },
         getDoneStatusForPreviousWeeksForUser(personIndex: number, nrOfWeeks: number): boolean[] {
             return [true, false]

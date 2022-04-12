@@ -17,7 +17,7 @@
   </ion-card>
 </template>
 
-<script>
+<script lang="ts">
 import {
   IonCard,
   IonCardContent,
@@ -41,6 +41,15 @@ export default {
     IonItem,
     IonLabel,
     IonCheckbox
+  },
+  methods: {
+    processDescription(text: string): string {
+      return this.replaceCheckboxes(text);
+
+    },
+    replaceCheckboxes(text: string): string {
+      return text; //TODO make [_] appear as checkbox in app
+    }
   }
 }
 </script>

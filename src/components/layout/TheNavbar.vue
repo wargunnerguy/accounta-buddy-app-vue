@@ -1,10 +1,11 @@
 <template>
   <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
       <ion-title>{{ $t('weekly_goals')}}</ion-title>
       <ion-buttons slot="end">
-        <TheLocaleChanger></TheLocaleChanger>
-        <ThemeChangeButton></ThemeChangeButton>
         <TheSettingsButton></TheSettingsButton>
       </ion-buttons>
     </ion-toolbar>
@@ -12,16 +13,10 @@
 </template>
 
 <script>
-import {IonHeader, IonTitle, IonToolbar} from "@ionic/vue";
-import ThemeChangeButton from "@/components/utils/ThemeChangeButton";
-import TheLocaleChanger from "@/components/utils/TheLocaleChanger";
+import {IonBackButton, IonHeader, IonTitle, IonToolbar} from "@ionic/vue";
 import TheSettingsButton from "@/components/utils/TheSettingsButton";
 export default {
   name: "TheNavbar",
-  components: {IonHeader, IonToolbar, IonTitle, ThemeChangeButton, TheLocaleChanger, TheSettingsButton}
+  components: {IonHeader, IonToolbar, IonTitle, IonBackButton, TheSettingsButton}
 }
 </script>
-
-<style scoped>
-
-</style>

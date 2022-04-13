@@ -1,14 +1,17 @@
 <template>
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle class="subtitle">{{ weekIndex + 1 }}. {{ $t('week') }} - {{ week.startDate }}</ion-card-subtitle>
+      <ion-card-subtitle class="subtitle">{{ weekIndex + 1 }}. {{ $t('week') }} - {{
+          week.startDate
+        }}
+      </ion-card-subtitle>
       <ion-card-title class="title">{{ personData.name === 'buddy_0' ? 'Sten' : 'Reimo' }}</ion-card-title>
       <!--TODO get real name -->
     </ion-card-header>
     <ion-card-content>
       <ion-item v-for="(task) in personData.tasks"
                 :key="week + '_' + personData.userId + '_' + task.taskId">
-        <ion-label>{{ task.description }}</ion-label>
+        <ion-label>{{ processDescription(task.description) }}</ion-label>
         <ion-checkbox :checked="task.isDone"
                       slot="end">
         </ion-checkbox>
@@ -28,6 +31,7 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/vue";
+import {h} from 'vue';
 
 export default {
   name: "UserWeekCardBody",
@@ -43,12 +47,14 @@ export default {
     IonCheckbox
   },
   methods: {
-    processDescription(text: string): string {
+    processDescription(text: string) {
       return this.replaceCheckboxes(text);
 
     },
-    replaceCheckboxes(text: string): string {
-      return text; //TODO make [_] appear as checkbox in app
+    replaceCheckboxes(text: string) {
+      return text
+          .replaceAll('[_]', '☐')
+          .replaceAll('[X]', '🗹');//TODO make [_] appear as checkbox in app
     }
   }
 }

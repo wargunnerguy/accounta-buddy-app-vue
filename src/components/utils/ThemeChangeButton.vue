@@ -21,18 +21,13 @@ export default {
     IonLabel,
     IonToggle
   },
-  data() {
-    return {
-      isDarkMode: document.body.classList.contains('dark')
-    }
-  },
   setup() {
     return {moon, sunny};
   },
   methods: {
     toggleDarkTheme() {
       document.body.classList.toggle('dark');
-      this.isDarkMode = !this.isDarkMode;
+      this.store.isDarkMode = !this.store.isDarkMode;
     },
   },
   computed: {

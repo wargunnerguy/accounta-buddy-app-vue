@@ -13,6 +13,7 @@ import {
   IonToggle
 } from '@ionic/vue'
 import {moon, sunny} from "ionicons/icons";
+import {useStore} from "@/store";
 
 export default {
   name: "ThemeChangeButton",
@@ -22,7 +23,12 @@ export default {
     IonToggle
   },
   setup() {
-    return {moon, sunny};
+    const store = useStore();
+    return {
+      moon,
+      sunny,
+      store
+    }
   },
   methods: {
     toggleDarkTheme() {
@@ -32,17 +38,11 @@ export default {
   },
   computed: {
     getIcon() {
-      return this.isDarkMode ? this.moon : this.sunny;
+      return this.store.isDarkMode ? this.moon : this.sunny;
     },
-  },
-  mounted() {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    // Use matchMedia to check the user preference
-    this.isDarkMode = document.body.classList.toggle('dark', prefersDark.matches);
-
-// Listen for changes to the prefers-color-scheme media query
-    prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
-
+    isDarkMode() {
+      return this.store.isDarkMode;
+    }
   }
 }
 

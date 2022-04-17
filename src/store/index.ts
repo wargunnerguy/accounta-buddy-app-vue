@@ -35,7 +35,9 @@ export const useStore = defineStore({
         modules: [EffectCube, Pagination, IonicSlides],
         todayDate: new Date(),
         todayWeek: getISOWeek(new Date()),
-        peopleWeeklyCompleteness: [] as number[][]
+        peopleWeeklyCompleteness: [] as number[][],
+        isDarkMode: document.body.classList.contains('dark'),
+        prefersDark: window.matchMedia('(prefers-color-scheme: dark)')
     }),
     actions: {
         async fetchData() {

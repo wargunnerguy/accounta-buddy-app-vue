@@ -23,6 +23,9 @@ export default defineComponent({
   },
   created() {
     this.store.fetchData().then(this.store.getFullData);
+  },
+  mounted() {
+    this.store.isDarkMode = document.body.classList.toggle('dark', this.store.prefersDark.matches);
   }
 });
 </script>

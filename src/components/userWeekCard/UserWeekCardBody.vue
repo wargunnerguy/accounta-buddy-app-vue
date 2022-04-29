@@ -31,7 +31,6 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/vue";
-import {h} from 'vue';
 
 export default {
   name: "UserWeekCardBody",

@@ -133,9 +133,9 @@ export const useStore = defineStore({
             return this.peopleWeeklyCompleteness[personIndex]
                 .slice((this.peopleWeeklyCompleteness[personIndex].length - nrOfWeeks), this.peopleWeeklyCompleteness[personIndex].length);
         },
-        getDoneStatusForPreviousWeeksForUser(personIndex: number, nrOfWeeks: number): boolean[] {
+/*        getDoneStatusForPreviousWeeksForUser(personIndex: number, nrOfWeeks: number): boolean[] {
             return [true, false]
-        },
+        },*/
         getFullData() {
             return this.fullData;
         }

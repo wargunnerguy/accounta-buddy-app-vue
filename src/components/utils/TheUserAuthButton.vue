@@ -5,7 +5,7 @@
   <ion-popover trigger="trigger-button" show-backdrop="false" dismiss-on-select="true">
     <ion-content>
       <ion-list>
-        <ion-item button @click="$router.push('/sign-out')">
+        <ion-item button @click="store.signUserOut">
           <ion-icon slot="start" :icon="logOutOutline"></ion-icon>
           <ion-label>
             Log out
@@ -25,12 +25,19 @@
 <script>
 import {personCircleOutline, logOutOutline, settingsOutline} from "ionicons/icons";
 import {IonIcon, IonButton, IonContent, IonPopover, IonItem, IonLabel} from "@ionic/vue";
+import {useStore} from "@/store";
 
 export default {
   name: "TheUserAuthButton",
   components: {IonIcon, IonButton, IonContent, IonPopover, IonItem, IonLabel},
   setup() {
-    return {personCircleOutline, logOutOutline, settingsOutline};
+    const store = useStore();
+    return {
+      store,
+      personCircleOutline,
+      logOutOutline,
+      settingsOutline
+    };
   },
 }
 </script>

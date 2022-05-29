@@ -1,23 +1,25 @@
 <template>
-  <h1>Create an Account</h1>
-  <form @submit.prevent="register">
-    <p><input type="text" placeholder="Email" autocomplete="on" v-model="email"/></p>
-    <p><input type="password" placeholder="Password" autocomplete="on" v-model="password"/></p>
-    <p>
-      <ion-button type="submit">Submit</ion-button>
-    </p>
-  </form>
+  <ion-page>
+    <h1>Create an Account</h1>
+    <form @submit.prevent="register">
+      <p><input type="text" placeholder="Email" autocomplete="on" v-model="email"/></p>
+      <p><input type="password" placeholder="Password" autocomplete="on" v-model="password"/></p>
+      <p>
+        <ion-button type="submit" @click="store.register(email, password)">Submit</ion-button>
+      </p>
+    </form>
+  </ion-page>
 </template>
 
 <script>
-import IonButton from '@ionic/vue'
-import {auth} from '@/firebase/config.js'
-import {createUserWithEmailAndPassword} from "firebase/auth";
+import {IonButton, IonPage} from '@ionic/vue'
+import {useStore} from "@/store";
+
 
 export default {
   name: "RegisterUser",
   components: {
-    IonButton
+    IonButton, IonPage
   },
   data() {
     return {
@@ -25,18 +27,12 @@ export default {
       password: ''
     }
   },
-  methods: {
-    register() {
-      createUserWithEmailAndPassword(auth, this.email, this.password)
-          .then(() => {
-            alert('Successfully registered! Please login.');
-            this.$router.push('/');
-          })
-          .catch(error => {
-            alert(error.message);
-          });
-    },
-  },
+  setup() {
+    const store = useStore();
+    return {
+      store
+    }
+  }
 }
 </script>
 

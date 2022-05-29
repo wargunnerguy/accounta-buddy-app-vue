@@ -4,6 +4,12 @@ import {EffectCube, Pagination} from "swiper";
 import {IonicSlides} from "@ionic/vue";
 import {getISOWeek} from "date-fns";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {auth} from '@/firebase/config.js';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, getAuth} from "firebase/auth";
+import router from "@/router";
+
 interface Task {
     taskId: string,
     description: string,
@@ -37,9 +43,35 @@ export const useStore = defineStore({
         todayWeek: getISOWeek(new Date()),
         peopleWeeklyCompleteness: [] as number[][],
         isDarkMode: document.body.classList.contains('dark'),
-        prefersDark: window.matchMedia('(prefers-color-scheme: dark)')
+        prefersDark: window.matchMedia('(prefers-color-scheme: dark)'),
     }),
     actions: {
+        async register(email: string, password: string) {
+            await createUserWithEmailAndPassword(auth, email, password)
+                .then((response) => {
+                    alert('Successfully registered! Please login.');
+                    router.push('/');
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        },
+        async signIn(email: string, password: string) {
+            await signInWithEmailAndPassword(auth, email, password)
+                .then((response) => {
+                    if (response) {
+                        router.push('/');
+                    } else {
+                        throw new Error('login failed')
+                    }
+                })
+        },
+
+        async signUserOut() {
+            await signOut(auth).then(() => {
+                router.push('/sign-in');
+            })
+        },
         async fetchData() {
             this.fullData = await axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${this.sheetId}/values/${this.sheet}!${this.range}?key=${this.apiKey}`)
                 .then(result => result.data['values'])
@@ -133,12 +165,11 @@ export const useStore = defineStore({
             return this.peopleWeeklyCompleteness[personIndex]
                 .slice((this.peopleWeeklyCompleteness[personIndex].length - nrOfWeeks), this.peopleWeeklyCompleteness[personIndex].length);
         },
-/*        getDoneStatusForPreviousWeeksForUser(personIndex: number, nrOfWeeks: number): boolean[] {
-            return [true, false]
-        },*/
+        /*        getDoneStatusForPreviousWeeksForUser(personIndex: number, nrOfWeeks: number): boolean[] {
+                    return [true, false]
+                },*/
         getFullData() {
             return this.fullData;
-        }
-
+        },
     },
 })

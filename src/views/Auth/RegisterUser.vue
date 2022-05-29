@@ -1,25 +1,23 @@
 <template>
-  <ion-page>
-    <h1>Create an Account</h1>
-    <form @submit.prevent="register">
-      <p><input type="text" placeholder="Email" autocomplete="on" v-model="email"/></p>
-      <p><input type="password" placeholder="Password" autocomplete="on" v-model="password"/></p>
-      <p>
-        <ion-button type="submit" @click="store.register(email, password)">Submit</ion-button>
-      </p>
+  <BaseInputForm :heading="'Create an account'">
+    <form @submit.prevent>
+      <ion-input type="text" placeholder="Email" autocomplete="on" v-model="email"/>
+      <ion-input type="password" placeholder="Password" autocomplete="on" v-model="password"/>
+      <ion-button type="submit" @click="store.register(email, password)">Create</ion-button>
     </form>
-  </ion-page>
+  </BaseInputForm>
 </template>
 
 <script>
-import {IonButton, IonPage} from '@ionic/vue'
+import {IonButton, IonInput} from '@ionic/vue'
 import {useStore} from "@/store";
+import BaseInputForm from "@/components/BaseInputForm";
 
 
 export default {
   name: "RegisterUser",
   components: {
-    IonButton, IonPage
+    IonButton, IonInput, BaseInputForm
   },
   data() {
     return {
@@ -35,7 +33,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

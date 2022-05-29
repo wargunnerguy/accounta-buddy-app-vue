@@ -7,7 +7,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     redirect: '/tabs/tab1'
   },
-
+  {
+    path: '/register',
+    component: () => import('@/views/Auth/RegisterUser.vue')
+  },
+  {
+    path: '/sign-in',
+    component: () => import('@/views/Auth/SignIn.vue')
+  },
   {
     path: '/tabs/',
     component: TabsPage,

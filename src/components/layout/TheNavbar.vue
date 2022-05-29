@@ -6,7 +6,7 @@
       </ion-buttons>
       <ion-title>{{ $t('weekly_goals')}}</ion-title>
       <ion-buttons slot="end">
-        <TheSettingsButton></TheSettingsButton>
+        <TheUserAuthButton></TheUserAuthButton>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -14,9 +14,9 @@
 
 <script>
 import {IonBackButton, IonHeader, IonTitle, IonToolbar} from "@ionic/vue";
-import TheSettingsButton from "@/components/utils/TheSettingsButton";
+import TheUserAuthButton from "@/components/utils/TheUserAuthButton";
 export default {
   name: "TheNavbar",
-  components: {IonHeader, IonToolbar, IonTitle, IonBackButton, TheSettingsButton}
+  components: {IonHeader, IonToolbar, IonTitle, IonBackButton, TheUserAuthButton}
 }
 </script>

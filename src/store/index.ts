@@ -35,7 +35,7 @@ export const useStore = defineStore({
         sheetId: '18HHwYvBYnJJMlEsIPv98lH5gc5H7PTLBO7h5Y2mc3hs',
         apiKey: 'AIzaSyCu3eywuilXrvgyLneIpxMOAFZkL9bxqmg',
         fullLink: 'https://docs.google.com/spreadsheets/d/18HHwYvBYnJJMlEsIPv98lH5gc5H7PTLBO7h5Y2mc3hs/edit?usp=sharing',
-        sheet: '2022',
+        sheet: '2023',
         range: 'A17:E328',
         fullData: [] as WeekDataObj[],
         modules: [EffectCube, Pagination, IonicSlides],
